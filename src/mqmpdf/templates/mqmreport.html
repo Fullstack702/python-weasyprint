@@ -1,0 +1,135 @@
+{{ render_resource('report.css', 'css') }}
+<div class="main">
+    <div class="audit-stats-block">
+        <table>
+            <tbody>
+            {% for stat_name, stat_value in audit_stats %}
+                <tr>
+                    <td>{{ stat_name }}</td>
+                    <td>{{ stat_value }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% for graph_filename in all_graphs %}
+    <div class="main">
+        {{ render_image_from_path(graph_filename) }}
+    </div>
+{% endfor %}
+<p style="page-break-before: always"></p>
+<div class="main">
+    <table class="report-table">
+        <tr>
+            <td>Audit Question Number</td>
+            <td>Audit Question</td>
+            <td>Non-Conformance</td>
+            <td>Supporting Evidence</td>
+            <td>Corrective Action</td>
+            <td>Date Completed</td>
+        </tr>
+        {% if red_lights|length > 0 %}
+            <tr>
+                <td class="red-light-header" colspan="6">CRITICAL SECTION</td>
+            </tr>
+            {% for question_number, question, non_conformance, se, cv, dc in red_lights %}
+                <tr>
+                    <td>{{ question_number }}</td>
+                    <td>{{ question }}</td>
+                    <td>{{ non_conformance }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+        {% if non_conforming_areas|length > 0 %}
+            {% for section, failed_areas in non_conforming_areas %}
+                <tr>
+                    <td class="non-conforming-header" colspan="6">{{ section }}</td>
+                </tr>
+                {% for question_number, question, non_conformance in failed_areas %}
+                    <tr>
+                        <td>{{ question_number }}</td>
+                        <td>{{ question }}</td>
+                        <td>{{ non_conformance }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+    </table>
+    <table class="report-table">
+        <tr>
+            <td class="staff-question-header" colspan="5">Food Safety Staff Competence Challenge Questions</td>
+        </tr>
+        <tr>
+            <td>Audit Question Number</td>
+            <td>Audit Question</td>
+            <td>Correct Answer</td>
+            <td>Staff Answer</td>
+            <td>Pass or Fail</td>
+        </tr>
+        {% for _, question_number, question in staff_competence %}
+            <tr>
+                <td>{{ question_number }}</td>
+                <td>{{ question }}</td>
+                <td></td>
+                <td></td>
+                <td class="pass">Pass</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <table class="report-table">
+        <tr>
+            <td class="staff-question-header" colspan="5">Food Safety Staff Competence Challenge Questions</td>
+        </tr>
+        <tr>
+            <td>Audit Question Number</td>
+            <td>Audit Question</td>
+            <td>Correct Answer</td>
+            <td>Staff Answer</td>
+            <td>Pass or Fail</td>
+        </tr>
+        {% for _, question_number, question in staff_competence %}
+            <tr>
+                <td>{{ question_number }}</td>
+                <td>{{ question }}</td>
+                <td></td>
+                <td></td>
+                <td class="pass">Pass</td>
+            </tr>
+        {% endfor %}
+    </table>    
+</div>
+
+<div class="main">
+    <p class="arHeader">Audit Results Summary</p>
+    <table class="auditResults">
+        <tr>
+            <td width="30%">Heading </td>
+            <td width="20%">No Questions</td>
+            <td width="10%">{{ render_resource('img1.png', 'image') }}</td>
+            <td width="10%">{{ render_resource('img2.png', 'image') }}</td>
+            <td width="10%">{{ render_resource('img3.png', 'image') }}</td>          
+            <td width="10%"><span>N/A</span></td>
+            <td width="10%">Score</td>
+        </tr>
+            {% for heading, noQuestions, value1, value2, value3, value4, score in audit_results %}
+                <tr>
+                    <td>{{ heading }}</td>
+                    <td>{{ noQuestions }}</td>
+                    <td>{{ value1 }}</td>
+                    <td>{{ value1 }}</td>
+                    <td>{{ value1 }}</td>
+                    <td>{{ value1 }}</td>
+                    <td>{{ score }}</td>              
+                </tr>
+            {% endfor %}
+    </table>  
+</div>
+
