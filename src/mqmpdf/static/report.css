@@ -1,73 +1,44 @@
 @page {
     margin-top: 80px;
-    margin-left: 0;
-    margin-right: 0;
-    margin-bottom: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 50px;
     padding: 0;
     size: a4 landscape;
+    @bottom-right {
+        /* content: "Page " counter(page) " of " counter(pages); */
+        content: counter(page);
+    }
+
+}
+thead { display: table-row-group }
+* {
+    font-family: 'Roboto' !important;
 }
 
 div.main {
     text-align: center;
     width: 100% !important;
     height: 700px;
-    margin:0px !important;
+    margin: 0px !important;
 }
 
 .audit-stats-block {
     text-align: left;
 }
 
+
 div.main img {
-    height:650px;
-    margin-top:25px;
+    height: 650px;
+    margin-top: 25px;
 }
 
 h4 {
     text-align: center;
 }
 
-* {
-    font-family: 'Roboto' !important;
-}
-
-table.report-table {
-    width: 100%;
-}
-
-table.report-table tr td.red-light-header {
-    background: darkred;
-    color: white;
-    border: 2px solid black;
-    font-weight: bold;
-}
-
-table.report-table tr td {
-    text-align: center;
-    border: 1px solid black;
-    margin-right: 0;
-}
-
-table.report-table tr {
-    border: 1px solid black;
-}
-
-table.report-table tr td.non-conforming-header {
-    background: sandybrown;
-    color: white;
-    border: 2px solid black;
-    font-weight: bold;
-}
-
-table.report-table tr td.staff-question-header {
-    background: mediumseagreen;
-    color: white;
-    border: 2px solid black;
-    font-weight: bold;
-}
-
 td.pass {
-    background-color: green;
+    background-color: #23d160;
     color: white;
     font-weight: bold;
 }
@@ -82,37 +53,123 @@ table, tr, td {
     margin: 0 !important;
 }
 
-table.auditResults{
+table.auditStatsTable,
+table.auditResults {
     width: 100%;
-    border-collapse: collapse;  
-    height: 600px; 
+    border-collapse: collapse;
+    height: 600px;
 }
 
-p.arHeader{
-    color:#578bd0;
-    text-align: left; 
-    line-height:1.5;
+p.arHeader {
+    font-size: 20px;
+    line-height: 1.5;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid black;
+    color: white;
+    padding: 3px;
+    background:#00d1b2;
 }
+
+/* p.header-warning {
+    background: sandybrown;
+} */
+
+p.header-error {
+    background: #ff3860;
+}
+
+p.header-info {
+    background: #23d160;
+}
+
+table.auditStatsTable td,
 table.auditResults td {
     border: 1px solid black;
-    padding:5px;
-  }
-  table.auditResults td img{
-      width:32px;
-      height:32px;
-      margin:auto;
-    }
-    table.auditResults td span{
-        background-color:white;
-        border-radius:20px;
-        padding:5px 10px;
-        color:green;
-    }    
-table.auditResults tr:first-child td{
-    background-color:#353535;
-    border:1px solid white;
-    color:white;
+    padding: 5px;
 }
-table.auditResults tr td:first-child{
+
+table.auditResults td img {
+    width: 32px;
+    height: 32px;
+    margin: auto;
+}
+
+table.auditResults td span {
+    background-color: white;
+    border-radius: 20px;
+    padding: 5px 10px;
+    color: #23d160;
+}
+
+
+table.auditResults tr:first-child td {
+    background-color: hsl(0, 0%, 29%);
+    border: 1px solid white;
+    color: white;
+    border-top:1px solid black;
+}
+
+table.auditResults tr:first-child td:first-child
+{
+    border-left:1px solid black;
+} 
+table.auditResults tr:first-child td:last-child
+{
+    border-right:1px solid black;
+} 
+
+
+
+div.audit-stats-block table td{
     text-align: left;
+    color:black !important;
+    border:1px solid black !important;
+    background-color: white !important;
+}
+div.audit-stats-block table tr > td:first-child{
+    font-weight: bold;
+}
+
+td {
+    text-align: center;
+}
+
+div.page-footer{
+    position:fixed;
+    bottom:0px;
+    text-align:right;
+}
+
+td.pass[data-value="Fail"] {
+    background-color:#ff3860 !important;
+  }
+
+div.failures-graph img{
+    width:35% !important;    
+    float: left;
+}
+div.failures-graph div.questionDiv{
+    padding-top:80px;
+    width: 60% !important;
+    float: left !important;
+}
+
+
+div.questionDiv table{
+    width: 100%;
+    height:500px !important;
+}
+
+div.questionDiv table td{
+    padding-top:0px !important;
+    padding-bottom:0px !important;
+}
+
+div.questionDiv table tr:first-child{
+    height:20px !important;
+    font-size:12px !important;
+}
+div.questionDiv table tr:first-child td:first-child{
+    width:50px !important;
 }

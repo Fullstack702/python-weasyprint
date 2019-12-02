@@ -20,7 +20,7 @@ for i in questions:
         
 plt.figure(figsize=(15,10))
 textstr = '\n'.join(key)
-bar=plt.bar(x=questions,height=data,color="red")
+bar=plt.bar(x=questions,height=data,color="#ff3860")
 plt.yticks(np.arange(0,max(data)+5,5))
 plt.title('Failure for All Locations (Last 12 Months)',fontsize=15,weight='bold')
 plt.xlabel('Question',fontsize=13)

@@ -21,12 +21,12 @@ def generate_score_summary(dates: typing.List[str], score_percentages: typing.Li
 
 	x = np.arange(0, 24, 2)
 
-	bar = plt.bar(x=x, height=scores_copy, color='orange', width=1.5)
+	bar = plt.bar(x=x, height=scores_copy, color='#00d1b2', width=1.5)
 
 	check = [i for i in range(len(scores_copy)) if scores_copy[i] < 80]
 
 	for i in check:
-		bar[i].set_color('r')
+		bar[i].set_color('#ff3860')
 
 	plt.yticks(np.arange(0, 110, 10))
 	plt.xticks(np.arange(0, 24, 2))
@@ -46,8 +46,8 @@ def generate_score_summary(dates: typing.List[str], score_percentages: typing.Li
 	for i in range(len(scores_copy)):
 		if dates_copy[i] != 'N/A':
 			annotation = f'{scores_copy[i]:.0f}%'
-			offset = 0.3 if len(annotation) == 3 else 0.4
-			plt.annotate(annotation, (x[i] - offset, scores_copy[i] * 1.015))
+			offset = 0.25 if len(annotation) == 3 else 0.3
+			plt.annotate(annotation, (x[i] - offset, scores_copy[i] + .8), weight='bold')
 
 	plt.savefig(filename, bbox_inches='tight')
 
@@ -74,7 +74,16 @@ def generate_scores_across_all(sites: typing.List[typing.Tuple[str, typing.Tuple
 			scores_copied.append(0)
 
 		for j, score in enumerate(scores_copied):
-			axes[i].bar(x[j], score, width=1.25)
+			if(j == 0):
+				axes[i].bar(x[j], score, width=1.25, color="#209cee")
+			elif(j == 1):
+				axes[i].bar(x[j], score, width=1.25, color="#00d1b2")	
+			elif(j == 2):
+    				axes[i].bar(x[j], score, width=1.25, color="#23d160")	
+			elif(j == 3):
+				axes[i].bar(x[j], score, width=1.25, color="#ff3860")					
+			else:
+				axes[i].bar(x[j], score, width=1.25)
 
 	for i in range(4):
 		axes[i].yaxis.grid(True)
@@ -100,7 +109,7 @@ def generate_scores_across_all(sites: typing.List[typing.Tuple[str, typing.Tuple
 			annotation = f'{current_score:.0f}%'
 			offset = 0.7 if len(annotation) == 4 else 0.5
 
-			axes[j].annotate(annotation, (x[i] - offset, current_score * 1.015))
+			axes[j].annotate(annotation, (x[i] - offset, current_score * 1.015), weight='bold')
 
 	fig.savefig(filename, bbox_inches='tight')
 

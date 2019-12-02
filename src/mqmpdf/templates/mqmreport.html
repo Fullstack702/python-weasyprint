@@ -1,135 +1,140 @@
 {{ render_resource('report.css', 'css') }}
 <div class="main">
     <div class="audit-stats-block">
-        <table>
-            <tbody>
-            {% for stat_name, stat_value in audit_stats %}
+        <table class="auditResults">
+           {% for stat_name, stat_value in audit_stats %}
                 <tr>
                     <td>{{ stat_name }}</td>
                     <td>{{ stat_value }}</td>
                 </tr>
             {% endfor %}
-            </tbody>
+            
         </table>
+        
     </div>
+    
 </div>
+
 {% for graph_filename in all_graphs %}
-    <div class="main">
-        {{ render_image_from_path(graph_filename) }}
-    </div>
-{% endfor %}
-<p style="page-break-before: always"></p>
-<div class="main">
-    <table class="report-table">
-        <tr>
-            <td>Audit Question Number</td>
-            <td>Audit Question</td>
-            <td>Non-Conformance</td>
-            <td>Supporting Evidence</td>
-            <td>Corrective Action</td>
-            <td>Date Completed</td>
-        </tr>
-        {% if red_lights|length > 0 %}
+    {% if 'failures_for_this_site.png' in graph_filename%}
+        <div class="main failures-graph">
+            {{ render_image_from_path(graph_filename) }}
+            <div class="questionDiv">
+            <table class="auditResults" >
             <tr>
-                <td class="red-light-header" colspan="6">CRITICAL SECTION</td>
+                <td>Question #</td>
+                <td>Question</td>
+             </tr>
+            {% for question_number, question in questions %}
+                <tr>
+                    <td>{{ question_number }}</td>
+                    <td style="text-align:left;font-size:9px; height:{{td_height_1}}px !important;">{{ question }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        </div>
+        </div>
+    {% elif 'failures_for_all_sites.png' in graph_filename%}
+        <div class="main failures-graph">
+            {{ render_image_from_path(graph_filename) }}
+            <div class="questionDiv">
+            <table class="auditResults" >
+            <tr>
+                <td>Question #</td>
+                <td>Question</td>
+             </tr>
+            {% for question_number, question in questions_2 %}
+                <tr>
+                    <td >{{ question_number }}</td>
+                    <td style="text-align:left;font-size:9px; height:{{td_height_2}}px !important;">{{ question }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        </div>
+        </div>
+    {% else %}
+        <div class="main">            
+            {{ render_image_from_path(graph_filename) }}
+        </div>
+    {% endif%}
+{% endfor %}
+
+{% if red_lights|length > 0 %}
+    <div class="main">
+        <p class="arHeader header-error">CRITICAL SECTION</p>
+        <table class="auditResults">
+            <tr>
+                <td width="15%">Question #</td>
+                <td>Question</td>
+                <td width="20%">Non-Conformance</td>
+                <td width="15%">Supporting Evidence</td>
+                <td >Corrective Action</td>
+                <td width="10%">Date Completed</td>
             </tr>
             {% for question_number, question, non_conformance, se, cv, dc in red_lights %}
                 <tr>
                     <td>{{ question_number }}</td>
-                    <td>{{ question }}</td>
+                    <td style=" text-align:left; height:250px !important;">{{ question }}</td>
                     <td>{{ non_conformance }}</td>
                     <td></td>
-                    <td></td>
+                    <td style="width:30% !important;"></td>
                     <td></td>
                 </tr>
             {% endfor %}
-        {% endif %}
-        {% if non_conforming_areas|length > 0 %}
-            {% for section, failed_areas in non_conforming_areas %}
+        </table>
+    </div>
+{% endif %}
+
+
+{% if non_conforming_areas|length > 0 %}
+    {% for section, failed_areas in non_conforming_areas %}
+        <div class="main">
+            <p class="arHeader header-warning">{{ section|upper }}</p>
+            <table class="auditResults">
                 <tr>
-                    <td class="non-conforming-header" colspan="6">{{ section }}</td>
+                    <td width="10%">Question #</td>
+                    <td width="30%">Question</td>
+                    <td width="20%">Non-Conformance</td>
+                    <td width="20%">Supporting Evidence</td>
+                    <td width="10%">Corrective Action</td>
+                    <td width="10%">Date Completed</td>
                 </tr>
                 {% for question_number, question, non_conformance in failed_areas %}
                     <tr>
                         <td>{{ question_number }}</td>
-                        <td>{{ question }}</td>
+                        <td style=" text-align:left; height:240px !important;">{{ question }}</td>
                         <td>{{ non_conformance }}</td>
                         <td></td>
-                        <td></td>
+                        <td style="width:30% !important;"></td>
                         <td></td>
                     </tr>
                 {% endfor %}
-            {% endfor %}
-        {% endif %}
-    </table>
-    <table class="report-table">
-        <tr>
-            <td class="staff-question-header" colspan="5">Food Safety Staff Competence Challenge Questions</td>
-        </tr>
-        <tr>
-            <td>Audit Question Number</td>
-            <td>Audit Question</td>
-            <td>Correct Answer</td>
-            <td>Staff Answer</td>
-            <td>Pass or Fail</td>
-        </tr>
-        {% for _, question_number, question in staff_competence %}
-            <tr>
-                <td>{{ question_number }}</td>
-                <td>{{ question }}</td>
-                <td></td>
-                <td></td>
-                <td class="pass">Pass</td>
-            </tr>
-        {% endfor %}
-    </table>
-
-    <table class="report-table">
-        <tr>
-            <td class="staff-question-header" colspan="5">Food Safety Staff Competence Challenge Questions</td>
-        </tr>
-        <tr>
-            <td>Audit Question Number</td>
-            <td>Audit Question</td>
-            <td>Correct Answer</td>
-            <td>Staff Answer</td>
-            <td>Pass or Fail</td>
-        </tr>
-        {% for _, question_number, question in staff_competence %}
-            <tr>
-                <td>{{ question_number }}</td>
-                <td>{{ question }}</td>
-                <td></td>
-                <td></td>
-                <td class="pass">Pass</td>
-            </tr>
-        {% endfor %}
-    </table>    
-</div>
+            </table>
+        </div>
+    {% endfor %}
+{% endif %}
 
 <div class="main">
-    <p class="arHeader">Audit Results Summary</p>
+    <p class="arHeader header-info">{{ 'Food Safety Staff Competence Challenge Questions'|upper }}</p>
     <table class="auditResults">
         <tr>
-            <td width="30%">Heading </td>
-            <td width="20%">No Questions</td>
-            <td width="10%">{{ render_resource('img1.png', 'image') }}</td>
-            <td width="10%">{{ render_resource('img2.png', 'image') }}</td>
-            <td width="10%">{{ render_resource('img3.png', 'image') }}</td>          
-            <td width="10%"><span>N/A</span></td>
-            <td width="10%">Score</td>
+            <td width="10%">Question #</td>
+            <td width="30%">Question</td>
+            <td width="30%">Correct Answer</td>
+            <td width="20%">Staff Answer</td>
+            <td width="10%">Pass or Fail</td>
         </tr>
-            {% for heading, noQuestions, value1, value2, value3, value4, score in audit_results %}
-                <tr>
-                    <td>{{ heading }}</td>
-                    <td>{{ noQuestions }}</td>
-                    <td>{{ value1 }}</td>
-                    <td>{{ value1 }}</td>
-                    <td>{{ value1 }}</td>
-                    <td>{{ value1 }}</td>
-                    <td>{{ score }}</td>              
-                </tr>
-            {% endfor %}
-    </table>  
+        {% for question_number, _, question, cAnswer, sAnswer, result in staff_competence %}
+            <tr>
+                <td style="width:50px !important;">{{ question_number }}</td>
+                <td style="height:150px !important; text-align:left;">{{ question }}</td>
+                <td style="width:30% !important; text-align:left;"></td>
+                <td style="width:30% !important; text-align:left;"></td>
+                <td  class="pass" data-value="{{ result }}">{{ result }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 </div>
+
+
 
